@@ -14,10 +14,15 @@ const httpServer = createServer(app);
 
 // Middleware
 app.use(cors({
-  origin: process.env.CLIENT_URL,
+  origin: process.env.CLIENT_URL || 'https://your-netlify-app.netlify.app',
   credentials: true
 }));
 app.use(express.json());
+
+// Health check route
+app.get('/', (req, res) => {
+  res.status(200).send('Server is running');
+});
 
 // Routes
 app.use('/api/code-blocks', codeBlockRoutes);
@@ -25,7 +30,7 @@ app.use('/api/code-blocks', codeBlockRoutes);
 // Socket.IO setup
 const io = new Server(httpServer, {
   cors: {
-    origin: process.env.CLIENT_URL,
+    origin: process.env.CLIENT_URL || 'https://your-netlify-app.netlify.app',
     methods: ['GET', 'POST'],
     credentials: true
   }
