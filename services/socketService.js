@@ -162,8 +162,8 @@ class SocketService {
       activeSessions[codeBlockId].currentCode = code;
     }
     
-    // שליחת העדכון לכל המשתמשים בחדר (כולל השולח)
-    this.io.to(codeBlockId).emit('code-update', code);
+    // שליחת העדכון לכל המשתמשים בחדר **חוץ מהשולח**
+    socket.to(codeBlockId).emit('code-update', code);
   }
 
   handleHintsChange(socket, codeBlockId, hints) {
